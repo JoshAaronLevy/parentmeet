@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.7.0] - 2026-04-28
+
+### Added
+
+- Added mobile create-proposal flow for basics, options, capacity, details, privacy, and review.
+- Added Supabase persistence for submitted meetup proposals and proposal options.
+- Added proposal submission behavior that sets proposals to `pending_review` with `manual_review_status = pending`.
+- Added My Meetups read-back for hosted proposals and their review status.
+- Connected the Create tab to the real proposal creation flow.
+
 ## [1.6.0] - 2026-04-28
 
 ### Added

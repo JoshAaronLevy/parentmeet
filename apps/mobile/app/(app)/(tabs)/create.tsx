@@ -1,3 +1,4 @@
+import { router, type Href } from "expo-router";
 import { XStack, YStack } from "tamagui";
 
 import {
@@ -9,6 +10,8 @@ import {
   Screen
 } from "../../../components/ui";
 
+const createProposalHref = "/(app)/create-proposal" as Href;
+
 export default function CreateScreen() {
   return (
     <Screen>
@@ -18,18 +21,18 @@ export default function CreateScreen() {
         </AppText>
         <AppText variant="title">Host a meetup proposal.</AppText>
         <AppText variant="subtitle">
-          Proposal creation starts in Stage 7. This shell shows where hosts will
-          begin.
+          Draft a proposal, choose flexible options, and submit it for manual
+          review before it can appear in Discover.
         </AppText>
       </YStack>
 
       <AppCard>
         <YStack gap="$4">
           <YStack gap="$2">
-            <AppText fontWeight="700">Coming next</AppText>
+            <AppText fontWeight="700">Create a new proposal</AppText>
             <AppText color="$muted">
-              Hosts will be able to draft a proposal, choose flexible options,
-              and submit it for manual review before it becomes discoverable.
+              The review flow collects location privacy, candidate options,
+              capacity, and host notes.
             </AppText>
           </YStack>
           <XStack flexWrap="wrap" gap="$2">
@@ -37,13 +40,15 @@ export default function CreateScreen() {
             <AppTag label="Structured interest" />
             <AppTag label="Private address protected" />
           </XStack>
-          <AppButton disabled>Start proposal</AppButton>
+          <AppButton onPress={() => router.push(createProposalHref)}>
+            Start proposal
+          </AppButton>
         </YStack>
       </AppCard>
 
       <EmptyState
-        body="No draft proposal flow exists yet. Stage 7 adds the real create screens."
-        title="Proposal creation is not active"
+        body="Submitted proposals stay pending until an admin approves them."
+        title="Manual review protects discovery"
       />
     </Screen>
   );

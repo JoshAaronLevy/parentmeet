@@ -1,8 +1,19 @@
 import { YStack } from "tamagui";
 
-import { AppCard, AppTag, AppText, EmptyState, Screen } from "../../../components/ui";
+import {
+  AppCard,
+  AppTag,
+  AppText,
+  EmptyState,
+  ErrorState,
+  LoadingState,
+  Screen
+} from "../../../components/ui";
+import { useMyProposals } from "../../../src/hooks/useMyProposals";
 
 export default function MyMeetupsScreen() {
+  const myProposals = useMyProposals();
+
   return (
     <Screen>
       <YStack gap="$2">
@@ -16,25 +27,37 @@ export default function MyMeetupsScreen() {
         </AppText>
       </YStack>
 
-      <AppCard>
-        <YStack gap="$3">
-          <AppText fontWeight="700">Current state</AppText>
-          <AppText color="$muted">
-            You do not have proposal or RSVP records yet. Those flows arrive in
-            later MVP stages.
-          </AppText>
-          <YStack alignItems="flex-start" gap="$2">
-            <AppTag label="Hosted proposals" />
-            <AppTag label="Interested" />
-            <AppTag label="Approved RSVPs" tone="success" />
-          </YStack>
-        </YStack>
-      </AppCard>
+      {myProposals.isLoading ? <LoadingState label="Loading your proposals" /> : null}
+      {myProposals.error ? (
+        <ErrorState
+          body={
+            myProposals.error instanceof Error
+              ? myProposals.error.message
+              : "Unable to load proposals."
+          }
+          title="Could not load meetups"
+        />
+      ) : null}
 
-      <EmptyState
-        body="Once your household expresses interest or hosts a meetup, those items will be listed here."
-        title="No meetups yet"
-      />
+      {myProposals.data?.map((proposal) => (
+        <AppCard key={proposal.id}>
+          <YStack gap="$3">
+            <AppText fontWeight="700">{proposal.title}</AppText>
+            <AppText color="$muted">{proposal.areaLabel}</AppText>
+            <YStack alignItems="flex-start" gap="$2">
+              <AppTag label={proposal.status} tone="success" />
+              <AppTag label={`review: ${proposal.manualReviewStatus}`} />
+            </YStack>
+          </YStack>
+        </AppCard>
+      ))}
+
+      {!myProposals.isLoading && myProposals.data?.length === 0 ? (
+        <EmptyState
+          body="Once your household hosts a proposal or joins a meetup, those items will be listed here."
+          title="No meetups yet"
+        />
+      ) : null}
     </Screen>
   );
 }
