@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.6.0] - 2026-04-28
+
+### Added
+
+- Added the authenticated mobile tab shell with Discover, Create, My Meetups, and Profile tabs.
+- Added polished placeholder states for proposal creation and meetup tracking.
+- Added Profile tab with Supabase-backed account and household summary plus sign out.
+- Added root authenticated redirect into the Discover tab while preserving onboarding completion guards.
+
 ## [1.5.0] - 2026-04-28
 
 ### Added
