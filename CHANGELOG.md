@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.8.0] - 2026-04-28
+
+### Added
+
+- Added admin Supabase Auth login with admin/moderator role checks.
+- Added protected admin dashboard, pending proposal list, and proposal detail review pages.
+- Added approve, reject, and needs-changes review actions with moderator notes.
+- Added approval behavior that moves approved proposals to `interest_open` and keeps rejected proposals non-public.
+- Added a minimal mobile Discover read from the public-safe approved proposals view.
+
 ## [1.7.0] - 2026-04-28
 
 ### Added

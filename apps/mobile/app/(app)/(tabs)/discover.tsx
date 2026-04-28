@@ -6,13 +6,16 @@ import {
   AppTag,
   AppText,
   EmptyState,
+  ErrorState,
   LoadingState,
   Screen
 } from "../../../components/ui";
+import { useDiscoverProposals } from "../../../src/hooks/useDiscoverProposals";
 import { useOnboardingStatus } from "../../../src/hooks/useOnboardingStatus";
 
 export default function DiscoverScreen() {
   const { data: onboardingStatus } = useOnboardingStatus();
+  const discoverProposals = useDiscoverProposals();
   const household = onboardingStatus?.household;
 
   return (
@@ -60,12 +63,51 @@ export default function DiscoverScreen() {
       </AppCard>
 
       <YStack gap="$3">
-        <LoadingState label="Checking nearby proposals" />
-        <EmptyState
-          body="Approved proposals from nearby host households will appear here."
-          title="No public proposals yet"
-        />
+        {discoverProposals.isLoading ? (
+          <LoadingState label="Checking nearby proposals" />
+        ) : null}
+        {discoverProposals.error ? (
+          <ErrorState
+            body={
+              discoverProposals.error instanceof Error
+                ? discoverProposals.error.message
+                : "Unable to load approved proposals."
+            }
+            title="Could not load Discover"
+          />
+        ) : null}
+        {discoverProposals.data?.map((proposal) => (
+          <AppCard key={proposal.id}>
+            <YStack gap="$3">
+              <XStack alignItems="center" justifyContent="space-between" gap="$3">
+                <AppText fontWeight="700">{proposal.title}</AppText>
+                <AppTag label={proposal.status} tone="success" />
+              </XStack>
+              <AppText color="$muted">
+                {proposal.areaLabel} · {formatValue(proposal.venueType)}
+              </AppText>
+              <AppText color="$muted">
+                {proposal.venuePrivacy === "private_address_after_approval"
+                  ? "Private address hidden until approval"
+                  : proposal.publicLocationName ?? "Public location"}
+              </AppText>
+            </YStack>
+          </AppCard>
+        ))}
+        {!discoverProposals.isLoading && discoverProposals.data?.length === 0 ? (
+          <EmptyState
+            body="Approved proposals from nearby host households will appear here."
+            title="No public proposals yet"
+          />
+        ) : null}
       </YStack>
     </Screen>
   );
+}
+
+function formatValue(value: string) {
+  return value
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }

@@ -25,6 +25,16 @@ export type MyProposalSummary = {
   title: string;
 };
 
+export type DiscoverProposalSummary = {
+  areaLabel: string;
+  id: string;
+  publicLocationName: string | null;
+  status: string;
+  title: string;
+  venuePrivacy: string;
+  venueType: string;
+};
+
 export async function submitProposalForReview({
   draft,
   household
@@ -129,6 +139,29 @@ export async function getMyProposals(householdId: string) {
     status: row.status,
     title: row.title
   })) satisfies MyProposalSummary[];
+}
+
+export async function getDiscoverProposals() {
+  const { data, error } = await supabase
+    .from("meetup_proposals_public")
+    .select(
+      "id, title, status, area_label, venue_privacy, venue_type, public_location_name"
+    )
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []).map((row) => ({
+    areaLabel: row.area_label,
+    id: row.id,
+    publicLocationName: row.public_location_name,
+    status: row.status,
+    title: row.title,
+    venuePrivacy: row.venue_privacy,
+    venueType: row.venue_type
+  })) satisfies DiscoverProposalSummary[];
 }
 
 function buildOptionRows(proposalId: string, draft: ProposalDraft) {
