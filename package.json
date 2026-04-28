@@ -1,12 +1,16 @@
 {
   "name": "parentmeet",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Mobile-first app for local parent meetups.",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.26.2",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:mobile": "pnpm --filter @parentmeet/mobile dev",
+    "dev:admin": "pnpm --filter @parentmeet/admin dev",
+    "typecheck": "pnpm --recursive --if-present typecheck"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
 }
