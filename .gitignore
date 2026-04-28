@@ -1,1 +1,12 @@
 .DS_Store
+node_modules/
+.expo/
+.tamagui/
+.next/
+dist/
+build/
+.turbo/
+.env
+.env.*
+!.env.example
+pnpm-debug.log*
