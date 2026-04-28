@@ -15,7 +15,8 @@ import {
   ErrorState,
   LoadingState,
   Screen
-} from "../components/ui";
+} from "../../components/ui";
+import { useAuth } from "../../src/providers/AuthProvider";
 
 const areaOptions = LOCAL_AREAS.map((area) => ({
   label: area.label,
@@ -23,23 +24,53 @@ const areaOptions = LOCAL_AREAS.map((area) => ({
 }));
 
 export default function HomeScreen() {
+  const { signOut, user } = useAuth();
   const [selectedArea, setSelectedArea] = useState<string | undefined>(
     areaOptions[0]?.value
   );
   const [isFlexible, setIsFlexible] = useState(true);
+  const [signOutError, setSignOutError] = useState<string | null>(null);
+  const [isSigningOut, setIsSigningOut] = useState(false);
+
+  async function handleSignOut() {
+    setIsSigningOut(true);
+    setSignOutError(null);
+
+    try {
+      await signOut();
+    } catch (error) {
+      setSignOutError(
+        error instanceof Error ? error.message : "Unable to sign out."
+      );
+    } finally {
+      setIsSigningOut(false);
+    }
+  }
 
   return (
-    <Screen justifyContent="center">
+    <Screen>
       <YStack gap="$2">
-        <AppText color="$accent" fontWeight="700" variant="label">
-          {APP_NAME}
-        </AppText>
+        <XStack alignItems="center" justifyContent="space-between" gap="$3">
+          <AppText color="$accent" fontWeight="700" variant="label">
+            {APP_NAME}
+          </AppText>
+          <AppButton
+            disabled={isSigningOut}
+            onPress={handleSignOut}
+            size="$3"
+            tone="secondary"
+          >
+            Sign out
+          </AppButton>
+        </XStack>
         <AppText variant="title">Meet local families offline.</AppText>
         <AppText variant="subtitle">
-          A quiet starting point for host-created parent meetups in nearby
-          neighborhoods.
+          Signed in as {user?.email}. Household onboarding starts in the next
+          stage.
         </AppText>
       </YStack>
+
+      {signOutError ? <ErrorState body={signOutError} title="Sign out failed" /> : null}
 
       <AppCard>
         <YStack gap="$4">

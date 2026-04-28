@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.0] - 2026-04-28
+
+### Added
+
+- Added persisted Supabase Auth client setup for the mobile app.
+- Added mobile auth provider with session restoration, sign in, sign up, and sign out actions.
+- Added Expo Router auth and app route groups with authenticated routing guards.
+- Added mobile sign-in and sign-up screens using email and password.
+- Added sign-out support to the authenticated mobile home screen.
+
 ## [1.3.0] - 2026-04-28
 
 ### Added
