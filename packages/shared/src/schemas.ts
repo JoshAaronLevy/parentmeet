@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { LOCAL_AREAS } from "./constants";
+import { HOUSEHOLD_INTERESTS, LOCAL_AREAS } from "./constants";
 import {
   AgeBand,
   AppRole,
@@ -23,6 +23,10 @@ import {
 const localAreaIds = LOCAL_AREAS.map((area) => area.id) as [
   (typeof LOCAL_AREAS)[number]["id"],
   ...(typeof LOCAL_AREAS)[number]["id"][]
+];
+const householdInterests = [...HOUSEHOLD_INTERESTS] as [
+  (typeof HOUSEHOLD_INTERESTS)[number],
+  ...(typeof HOUSEHOLD_INTERESTS)[number][]
 ];
 
 export const householdStageSchema = z.enum([
@@ -50,6 +54,7 @@ export const eventMessageTypeSchema = z.enum(valuesOf(EventMessageType));
 export const reportStatusSchema = z.enum(valuesOf(ReportStatus));
 export const appRoleSchema = z.enum(valuesOf(AppRole));
 export const localAreaIdSchema = z.enum(localAreaIds);
+export const householdInterestSchema = z.enum(householdInterests);
 
 export const profilePreviewSchema = z.object({
   displayName: z.string().min(1),

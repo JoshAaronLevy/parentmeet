@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseUrl = normalizeSupabaseUrl(process.env.SUPABASE_URL);
 const supabasePublishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
 const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
 
@@ -27,4 +27,8 @@ export function createSupabaseAdminClient() {
       persistSession: false
     }
   });
+}
+
+function normalizeSupabaseUrl(value: string | undefined) {
+  return value?.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, "");
 }

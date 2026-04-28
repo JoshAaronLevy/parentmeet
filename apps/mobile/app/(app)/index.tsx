@@ -16,6 +16,7 @@ import {
   LoadingState,
   Screen
 } from "../../components/ui";
+import { useOnboardingStatus } from "../../src/hooks/useOnboardingStatus";
 import { useAuth } from "../../src/providers/AuthProvider";
 
 const areaOptions = LOCAL_AREAS.map((area) => ({
@@ -25,6 +26,7 @@ const areaOptions = LOCAL_AREAS.map((area) => ({
 
 export default function HomeScreen() {
   const { signOut, user } = useAuth();
+  const { data: onboardingStatus } = useOnboardingStatus();
   const [selectedArea, setSelectedArea] = useState<string | undefined>(
     areaOptions[0]?.value
   );
@@ -65,12 +67,34 @@ export default function HomeScreen() {
         </XStack>
         <AppText variant="title">Meet local families offline.</AppText>
         <AppText variant="subtitle">
-          Signed in as {user?.email}. Household onboarding starts in the next
-          stage.
+          Signed in as {user?.email}. Your household setup is saved and ready
+          for the next MVP stages.
         </AppText>
       </YStack>
 
       {signOutError ? <ErrorState body={signOutError} title="Sign out failed" /> : null}
+
+      {onboardingStatus?.household ? (
+        <AppCard>
+          <YStack gap="$3">
+            <XStack alignItems="center" justifyContent="space-between" gap="$3">
+              <AppText fontWeight="700">
+                {onboardingStatus.household.householdName}
+              </AppText>
+              <AppTag label="Onboarded" tone="success" />
+            </XStack>
+            <AppText color="$muted">
+              {onboardingStatus.household.city} ·{" "}
+              {onboardingStatus.household.isExpectantParent
+                ? "Expecting"
+                : "Parent household"}
+            </AppText>
+            {onboardingStatus.household.bio ? (
+              <AppText>{onboardingStatus.household.bio}</AppText>
+            ) : null}
+          </YStack>
+        </AppCard>
+      ) : null}
 
       <AppCard>
         <YStack gap="$4">

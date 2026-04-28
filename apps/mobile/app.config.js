@@ -38,11 +38,15 @@ const env = {
   ...process.env
 };
 
+function normalizeSupabaseUrl(value) {
+  return value ? value.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, "") : value;
+}
+
 module.exports = ({ config }) => ({
   ...config,
   extra: {
     ...config.extra,
     supabasePublishableKey: env.SUPABASE_PUBLISHABLE_KEY,
-    supabaseUrl: env.SUPABASE_URL
+    supabaseUrl: normalizeSupabaseUrl(env.SUPABASE_URL)
   }
 });

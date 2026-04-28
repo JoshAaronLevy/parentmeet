@@ -4,8 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createClient } from "@supabase/supabase-js";
 import Constants from "expo-constants";
 
-const supabaseUrl =
-  Constants.expoConfig?.extra?.supabaseUrl ?? process.env.SUPABASE_URL;
+const supabaseUrl = normalizeSupabaseUrl(
+  Constants.expoConfig?.extra?.supabaseUrl ?? process.env.SUPABASE_URL
+);
 const supabasePublishableKey =
   Constants.expoConfig?.extra?.supabasePublishableKey ??
   process.env.SUPABASE_PUBLISHABLE_KEY;
@@ -28,3 +29,7 @@ export function createSupabaseClient() {
 }
 
 export const supabase = createSupabaseClient();
+
+function normalizeSupabaseUrl(value: string | undefined) {
+  return value?.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, "");
+}

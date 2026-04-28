@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.0] - 2026-04-28
+
+### Added
+
+- Added authenticated mobile household onboarding flow for household basics, adults, children, areas, interests, and review.
+- Added Supabase persistence for profiles, households, and household members from onboarding.
+- Added onboarding completion guard so new users must complete household setup before reaching the main app.
+- Added household read-back on the authenticated mobile home screen.
+- Added Highlands Ranch and nearby local area data plus editable household interest constants.
+
 ## [1.4.0] - 2026-04-28
 
 ### Added
