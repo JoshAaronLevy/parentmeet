@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.3.0] - 2026-04-28
+
+### Added
+
+- Added initial Supabase schema migrations for MVP profiles, households, meetup proposals, interest, RSVP, event message, reconnect, report, and block tables.
+- Added baseline RLS policies and public-safe discovery views for household and proposal reads.
+- Added shared TypeScript constants and Zod schemas for database-constrained status values.
+- Added Supabase local development commands to the root package and README.
+
 ## [1.2.0] - 2026-04-28
 
 ### Added

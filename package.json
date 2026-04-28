@@ -1,6 +1,6 @@
 {
   "name": "parentmeet",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "description": "Mobile-first app for local parent meetups.",
   "license": "UNLICENSED",
@@ -8,6 +8,9 @@
   "scripts": {
     "dev:mobile": "pnpm --filter @parentmeet/mobile dev",
     "dev:admin": "pnpm --filter @parentmeet/admin dev",
+    "db:start": "supabase start",
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript --local > packages/shared/src/database.types.ts",
     "typecheck": "pnpm --recursive --if-present typecheck"
   },
   "devDependencies": {
