@@ -1,12 +1,18 @@
 import { createClient } from "@supabase/supabase-js";
+import Constants from "expo-constants";
 
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseUrl =
+  Constants.expoConfig?.extra?.supabaseUrl ?? process.env.SUPABASE_URL;
+const supabasePublishableKey =
+  Constants.expoConfig?.extra?.supabasePublishableKey ??
+  process.env.SUPABASE_PUBLISHABLE_KEY;
 
 export function createSupabaseClient() {
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error("Missing Expo Supabase environment variables.");
+  if (!supabaseUrl || !supabasePublishableKey) {
+    throw new Error(
+      "Missing mobile Supabase environment variables: SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY."
+    );
   }
 
-  return createClient(supabaseUrl, supabaseAnonKey);
+  return createClient(supabaseUrl, supabasePublishableKey);
 }

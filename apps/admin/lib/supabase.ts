@@ -1,12 +1,30 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabasePublishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
+const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
 
 export function createSupabaseClient() {
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error("Missing Next.js Supabase environment variables.");
+  if (!supabaseUrl || !supabasePublishableKey) {
+    throw new Error(
+      "Missing admin Supabase environment variables: SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY."
+    );
   }
 
-  return createClient(supabaseUrl, supabaseAnonKey);
+  return createClient(supabaseUrl, supabasePublishableKey);
+}
+
+export function createSupabaseAdminClient() {
+  if (!supabaseUrl || !supabaseSecretKey) {
+    throw new Error(
+      "Missing admin Supabase service environment variables: SUPABASE_URL and SUPABASE_SECRET_KEY."
+    );
+  }
+
+  return createClient(supabaseUrl, supabaseSecretKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  });
 }

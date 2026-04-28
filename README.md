@@ -11,6 +11,18 @@ Install dependencies:
 pnpm install
 ```
 
+Create local environment files from the examples:
+
+```sh
+cp .env.example .env
+cp apps/mobile/.env.example apps/mobile/.env
+cp apps/admin/.env.example apps/admin/.env
+```
+
+Use `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` in the mobile app. Use all
+three Supabase variables in the admin app and root `.env`; never ship
+`SUPABASE_SECRET_KEY` in a client bundle.
+
 Start the Expo mobile app:
 
 ```sh
